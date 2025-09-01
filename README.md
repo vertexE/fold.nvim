@@ -1,4 +1,4 @@
-# folds
+# fold.nvim
 
 Easily focus on code blocks using manual folds.
 
