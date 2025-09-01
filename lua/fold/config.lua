@@ -13,9 +13,14 @@ local user_fold_options = nil
 local manual_mode_fold_options = {
 	foldminlines = 0,
 	fillchars = (vim.o.fillchars ~= "" and vim.o.fillchars .. "," or "") .. "fold: ",
-	foldtext = string.rep("∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙", 30),
+	foldtext = 'v:lua.require("fold.config").foldtext()',
 	foldmethod = "manual",
 }
+
+---@return string
+M.foldtext = function()
+	return string.rep("∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙∙", 30)
+end
 
 local save_user_fold_options = function()
 	user_fold_options = {
