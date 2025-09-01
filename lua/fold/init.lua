@@ -27,7 +27,7 @@ end
 M.marks = focus.marks
 
 --- focus on lsp diagnostics, defaults to all err levels
---- @param severity vim.diagnostic.SeverityFilter
+--- @param severity ?vim.diagnostic.SeverityFilter
 M.diagnostics = function(severity)
 	focus.diagnostics(severity)
 end

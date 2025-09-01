@@ -80,7 +80,7 @@ M.marks = function()
 		return
 	end
 
-	editor.set_fold_options("manual")
+	config.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_positions(marks)
@@ -91,7 +91,7 @@ M.marks = function()
 	state.focused = true
 end
 
---- @param severity vim.diagnostic.SeverityFilter
+--- @param severity ?vim.diagnostic.SeverityFilter
 M.diagnostics = function(severity)
 	if state.focused then
 		reset()
@@ -104,7 +104,7 @@ M.diagnostics = function(severity)
 		return
 	end
 
-	editor.set_fold_options("manual")
+	config.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_positions(diagnostics)
@@ -127,7 +127,7 @@ M.zen = function()
 		return
 	end
 
-	editor.set_fold_options("manual")
+	config.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_ranges(selection)
@@ -150,7 +150,7 @@ M.diff = function()
 		return
 	end
 
-	editor.set_fold_options("manual")
+	config.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_ranges(diffs)
