@@ -39,4 +39,8 @@ M.diff = focus.diff
 --- currently is a no-op, will add options gradually
 M.setup = function(config) end
 
+--- whether we currently are in focus mode
+--- @return boolean
+M.focused = focus.focused
+
 return M

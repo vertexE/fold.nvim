@@ -12,6 +12,10 @@ local state = {
 	focused = false,
 }
 
+M.focused = function()
+	return state.focused
+end
+
 local reset = function()
 	state.focused = false
 	vim.cmd("normal zE")
