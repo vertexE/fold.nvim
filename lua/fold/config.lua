@@ -28,6 +28,7 @@ end
 
 --- @param mode "user"|"manual"
 M.set_fold_options = function(mode)
+	local winr = vim.api.nvim_get_current_win()
 	local fo
 	if mode == "user" and user_fold_options ~= nil then
 		fo = user_fold_options
@@ -38,10 +39,10 @@ M.set_fold_options = function(mode)
 		return
 	end
 
-	vim.wo.foldminlines = fo.foldminlines
-	vim.wo.fillchars = fo.fillchars
-	vim.wo.foldtext = fo.foldtext
-	vim.wo.foldmethod = fo.foldmethod
+	vim.wo[winr].foldminlines = fo.foldminlines
+	vim.wo[winr].fillchars = fo.fillchars
+	vim.wo[winr].foldtext = fo.foldtext
+	vim.wo[winr].foldmethod = fo.foldmethod
 end
 
 return M
