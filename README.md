@@ -69,12 +69,22 @@ Easily focus on code blocks using manual folds.
 
 ## Usage
 
+demo shows focus on
+- diagnostics
+- find in buffer search
+- selection
+- marks
+- diff (requires mini.diff)
+
+https://github.com/user-attachments/assets/82022bc4-19af-4301-8a2f-5a80e0599d18
+
+## Config
+
+Nothing supported as of yet.
 
 ## What's Next?
 
 - [ ] support manually added focus locations
 - [ ] add a "status" func to display the active focus
 - [ ] iron out any bugs
-
-### Demo
 
