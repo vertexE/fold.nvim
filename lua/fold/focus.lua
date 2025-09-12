@@ -5,26 +5,29 @@ local mdiff = require("fold.search.mini_diff")
 local editor = require("fold.search.editor")
 local lsp = require("fold.search.lsp")
 local text = require("fold.search.text")
-local config = require("fold.config")
+local user = require("fold.user")
 local folding = require("fold.folding")
 
 local state = {
-	focused = false,
+	focused = {}, -- turn into a table<integer,boolean>
 }
 
 M.focused = function()
-	return state.focused
+	local winr = vim.api.nvim_get_current_win()
+	return state.focused[winr] ~= nil and state.focused[winr]
 end
 
-local reset = function()
-	state.focused = false
+--- @param winr integer
+local reset = function(winr)
+	state.focused[winr] = false
 	vim.cmd("normal zE")
-	config.set_fold_options("user")
+	user.set_fold_options("user")
 end
 
 M.user_ranges = function()
-	if state.focused then
-		reset()
+	local winr = vim.api.nvim_get_current_win()
+	if state.focused[winr] then
+		reset(winr)
 		return
 	end
 
@@ -33,7 +36,7 @@ M.user_ranges = function()
 		return
 	end
 
-	config.set_fold_options("manual")
+	user.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_ranges(ranges)
@@ -41,13 +44,14 @@ M.user_ranges = function()
 		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
 	end
 
-	state.focused = true
+	state.focused[winr] = true
 end
 
 --- @param s table<string>
 M.text = function(s)
-	if state.focused then
-		reset()
+	local winr = vim.api.nvim_get_current_win()
+	if state.focused[winr] then
+		reset(winr)
 		return
 	end
 
@@ -57,7 +61,7 @@ M.text = function(s)
 		return
 	end
 
-	config.set_fold_options("manual")
+	user.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_positions(matches)
@@ -65,12 +69,13 @@ M.text = function(s)
 		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
 	end
 
-	state.focused = true
+	state.focused[winr] = true
 end
 
 M.marks = function()
-	if state.focused then
-		reset()
+	local winr = vim.api.nvim_get_current_win()
+	if state.focused[winr] then
+		reset(winr)
 		return
 	end
 
@@ -80,7 +85,7 @@ M.marks = function()
 		return
 	end
 
-	config.set_fold_options("manual")
+	user.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_positions(marks)
@@ -88,13 +93,14 @@ M.marks = function()
 		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
 	end
 
-	state.focused = true
+	state.focused[winr] = true
 end
 
 --- @param severity ?vim.diagnostic.SeverityFilter
 M.diagnostics = function(severity)
-	if state.focused then
-		reset()
+	local winr = vim.api.nvim_get_current_win()
+	if state.focused[winr] then
+		reset(winr)
 		return
 	end
 
@@ -104,7 +110,7 @@ M.diagnostics = function(severity)
 		return
 	end
 
-	config.set_fold_options("manual")
+	user.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_positions(diagnostics)
@@ -112,12 +118,13 @@ M.diagnostics = function(severity)
 		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
 	end
 
-	state.focused = true
+	state.focused[winr] = true
 end
 
 M.zen = function()
-	if state.focused then
-		reset()
+	local winr = vim.api.nvim_get_current_win()
+	if state.focused[winr] then
+		reset(winr)
 		return
 	end
 
@@ -127,7 +134,7 @@ M.zen = function()
 		return
 	end
 
-	config.set_fold_options("manual")
+	user.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_ranges(selection)
@@ -135,12 +142,13 @@ M.zen = function()
 		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
 	end
 
-	state.focused = true
+	state.focused[winr] = true
 end
 
 M.diff = function()
-	if state.focused then
-		reset()
+	local winr = vim.api.nvim_get_current_win()
+	if state.focused[winr] then
+		reset(winr)
 		return
 	end
 
@@ -150,7 +158,7 @@ M.diff = function()
 		return
 	end
 
-	config.set_fold_options("manual")
+	user.set_fold_options("manual")
 	vim.cmd("normal zE")
 
 	local folds = folding.by_ranges(diffs)
@@ -158,7 +166,7 @@ M.diff = function()
 		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
 	end
 
-	state.focused = true
+	state.focused[winr] = true
 end
 
 return M
