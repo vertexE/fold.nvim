@@ -39,12 +39,10 @@ M.set_fold_options = function(mode)
 		return
 	end
 
-	vim.schedule(function()
-		vim.wo[winr].foldminlines = fo.foldminlines
-		vim.wo[winr].fillchars = fo.fillchars
-		vim.wo[winr].foldtext = fo.foldtext
-		vim.wo[winr].foldmethod = fo.foldmethod
-	end)
+	vim.wo[winr].foldminlines = fo.foldminlines
+	vim.wo[winr].fillchars = fo.fillchars
+	vim.wo[winr].foldtext = fo.foldtext
+	vim.wo[winr].foldmethod = fo.foldmethod
 end
 
 return M

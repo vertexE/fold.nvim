@@ -20,8 +20,10 @@ end
 --- @param winr integer
 local reset = function(winr)
 	state.focused[winr] = false
-	vim.cmd("normal zE")
-	user.set_fold_options("user")
+	vim.schedule(function()
+		vim.cmd("normal zE")
+		user.set_fold_options("user")
+	end)
 end
 
 M.user_ranges = function()
@@ -36,14 +38,15 @@ M.user_ranges = function()
 		return
 	end
 
-	user.set_fold_options("manual")
-	vim.cmd("normal zE")
+	vim.schedule(function()
+		user.set_fold_options("manual")
+		vim.cmd("normal zE")
 
-	local folds = folding.by_ranges(ranges)
-	for _, fold in ipairs(folds) do
-		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
-	end
-
+		local folds = folding.by_ranges(ranges)
+		for _, fold in ipairs(folds) do
+			vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
+		end
+	end)
 	state.focused[winr] = true
 end
 
@@ -61,13 +64,15 @@ M.text = function(s)
 		return
 	end
 
-	user.set_fold_options("manual")
-	vim.cmd("normal zE")
+	vim.schedule(function()
+		user.set_fold_options("manual")
+		vim.cmd("normal zE")
 
-	local folds = folding.by_positions(matches)
-	for _, fold in ipairs(folds) do
-		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
-	end
+		local folds = folding.by_positions(matches)
+		for _, fold in ipairs(folds) do
+			vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
+		end
+	end)
 
 	state.focused[winr] = true
 end
@@ -85,13 +90,15 @@ M.marks = function()
 		return
 	end
 
-	user.set_fold_options("manual")
-	vim.cmd("normal zE")
+	vim.schedule(function()
+		user.set_fold_options("manual")
+		vim.cmd("normal zE")
 
-	local folds = folding.by_positions(marks)
-	for _, fold in ipairs(folds) do
-		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
-	end
+		local folds = folding.by_positions(marks)
+		for _, fold in ipairs(folds) do
+			vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
+		end
+	end)
 
 	state.focused[winr] = true
 end
@@ -110,13 +117,15 @@ M.diagnostics = function(severity)
 		return
 	end
 
-	user.set_fold_options("manual")
-	vim.cmd("normal zE")
+	vim.schedule(function()
+		user.set_fold_options("manual")
+		vim.cmd("normal zE")
 
-	local folds = folding.by_positions(diagnostics)
-	for _, fold in ipairs(folds) do
-		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
-	end
+		local folds = folding.by_positions(diagnostics)
+		for _, fold in ipairs(folds) do
+			vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
+		end
+	end)
 
 	state.focused[winr] = true
 end
@@ -134,13 +143,15 @@ M.zen = function()
 		return
 	end
 
-	user.set_fold_options("manual")
-	vim.cmd("normal zE")
+	vim.schedule(function()
+		user.set_fold_options("manual")
+		vim.cmd("normal zE")
 
-	local folds = folding.by_ranges(selection)
-	for _, fold in ipairs(folds) do
-		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
-	end
+		local folds = folding.by_ranges(selection)
+		for _, fold in ipairs(folds) do
+			vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
+		end
+	end)
 
 	state.focused[winr] = true
 end
@@ -158,13 +169,15 @@ M.diff = function()
 		return
 	end
 
-	user.set_fold_options("manual")
-	vim.cmd("normal zE")
+	vim.schedule(function()
+		user.set_fold_options("manual")
+		vim.cmd("normal zE")
 
-	local folds = folding.by_ranges(diffs)
-	for _, fold in ipairs(folds) do
-		vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
-	end
+		local folds = folding.by_ranges(diffs)
+		for _, fold in ipairs(folds) do
+			vim.cmd(string.format("%d,%dfold", fold[1], fold[2]))
+		end
+	end)
 
 	state.focused[winr] = true
 end
