@@ -1,28 +1,30 @@
 local M = {}
 
---- @class fold.FoldOptions
---- @field foldminlines integer
+--- @class fold.WinOptions
 --- @field fillchars string
 --- @field foldtext string
 --- @field foldmethod string
+--- @field foldexpr string
 local FoldOptions = {}
 
---- @type fold.FoldOptions | nil
-local user_fold_options = nil
---- @type fold.FoldOptions
+--- @type table<integer,fold.WinOptions> each option set is win specific
+local user_fold_options = {}
+
+--- @type fold.WinOptions
 local manual_mode_fold_options = {
-	foldminlines = 0,
 	fillchars = (vim.o.fillchars ~= "" and vim.o.fillchars .. "," or "") .. "fold: ",
 	foldtext = 'v:lua.require("fold.config").foldtext()',
 	foldmethod = "manual",
+	foldexpr = "0",
 }
 
 local save_user_fold_options = function()
-	user_fold_options = {
-		foldminlines = vim.wo.foldminlines,
-		fillchars = vim.wo.fillchars,
-		foldtext = vim.wo.foldtext,
-		foldmethod = vim.wo.foldmethod,
+	local winr = vim.api.nvim_get_current_win()
+	user_fold_options[winr] = {
+		fillchars = vim.wo[winr].fillchars,
+		foldtext = vim.wo[winr].foldtext,
+		foldmethod = vim.wo[winr].foldmethod,
+		foldexpr = vim.wo[winr].foldexpr,
 	}
 end
 
@@ -30,8 +32,8 @@ end
 M.set_fold_options = function(mode)
 	local winr = vim.api.nvim_get_current_win()
 	local fo
-	if mode == "user" and user_fold_options ~= nil then
-		fo = user_fold_options
+	if mode == "user" and user_fold_options[winr] ~= nil then
+		fo = user_fold_options[winr]
 	elseif mode == "manual" then
 		fo = manual_mode_fold_options
 		save_user_fold_options()
@@ -39,10 +41,10 @@ M.set_fold_options = function(mode)
 		return
 	end
 
-	vim.wo[winr].foldminlines = fo.foldminlines
 	vim.wo[winr].fillchars = fo.fillchars
 	vim.wo[winr].foldtext = fo.foldtext
 	vim.wo[winr].foldmethod = fo.foldmethod
+	vim.wo[winr].foldexpr = fo.foldexpr
 end
 
 return M
