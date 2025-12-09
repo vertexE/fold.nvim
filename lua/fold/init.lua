@@ -30,7 +30,9 @@ end
 
 M.zen = focus.zen
 
-M.diff = focus.diff
+M.diff = function()
+	focus.diff(cfg.diffsrc)
+end
 
 --- @alias fold.diffPlug "mini"|"gitsigns"
 
