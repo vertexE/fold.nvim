@@ -54,7 +54,7 @@ local gitsigns_diff = function()
 		local added = hunk["added"]
 
 		local start_ln = math.min(rmved.start, added.start)
-		local end_ln = math.max(rmved.start + rmved.count - 1, added.start + added.count - 1)
+		local end_ln = math.max(rmved.start, added.start + added.count - 1)
 
 		table.insert(ranges, { math.max(1, start_ln - OFFSET), end_ln + OFFSET })
 	end
