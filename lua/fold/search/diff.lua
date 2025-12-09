@@ -32,7 +32,7 @@ local gitsigns_diff = function()
 		return {}
 	end
 
-	local stat_hunks, hunks = pcall(gitsigns.get_hunks, 0)
+	local stat_hunks, hunks = pcall(gitsigns.get_hunks)
 	if not stat_hunks then
 		vim.notify("fold: gitsigns not setup!", vim.log.levels.ERROR, {})
 		return {}
