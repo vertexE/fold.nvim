@@ -1,7 +1,7 @@
 local M = {}
 
 local manual = require("fold.search.manual")
-local mdiff = require("fold.search.mini_diff")
+local diff = require("fold.search.diff")
 local editor = require("fold.search.editor")
 local lsp = require("fold.search.lsp")
 local text = require("fold.search.text")
@@ -144,14 +144,15 @@ M.zen = function()
 	state.focused[winr] = true
 end
 
-M.diff = function()
+--- @param diffsrc fold.diffPlug
+M.diff = function(diffsrc)
 	local winr = vim.api.nvim_get_current_win()
 	if state.focused[winr] then
 		reset(winr)
 		return
 	end
 
-	local diffs = mdiff.diff_ranges()
+	local diffs = diff.diff_ranges(diffsrc)
 	if #diffs == 0 then
 		vim.notify("no diffs in current file", vim.log.levels.WARN, {})
 		return

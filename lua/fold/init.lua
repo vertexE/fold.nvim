@@ -1,15 +1,11 @@
 local M = {}
 
 local focus = require("fold.focus")
--- local manual = require("fold.search.manual")
 
--- TODO: these need to be reworked
---- focus on manually added user selected ranges
--- M.focus_user_ranges = focus.user_ranges
---- add a visual selection, or the current line
--- M.add_selection = manual.add_user_range
---- remove the visual selection/current line from focus
--- M.delete_selection = manual.remove_user_range
+--- @type fold.PluginOpts
+local cfg = {
+	diffsrc = "mini",
+}
 
 --- opens an input, then creates folds around the matched
 --- strings, supports regular expressions
@@ -36,8 +32,17 @@ M.zen = focus.zen
 
 M.diff = focus.diff
 
---- currently is a no-op, will add options gradually
-M.setup = function(config) end
+--- @alias fold.diffPlug "mini"|"gitsigns"
+
+--- @class fold.PluginOpts
+--- @field diffsrc ?fold.diffPlug
+
+--- @param _cfg ?fold.PluginOpts
+M.setup = function(_cfg)
+	if _cfg then
+		cfg = vim.tbl_deep_extend("force", cfg, _cfg)
+	end
+end
 
 --- whether we currently are in focus mode
 --- @return boolean
